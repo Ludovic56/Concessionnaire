@@ -1,5 +1,6 @@
 import java.awt.List;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import com.iia.shop.entity.Vehicle;
 
@@ -9,6 +10,7 @@ public class Store {
 		// TODO Auto-generated method stub
 
 		java.io.Console console = System.console();
+		Scanner scanner = new Scanner(System.in);
 		Vehicle vehicle = new Vehicle();
 
 		int mainMenuChoice = 0;
@@ -31,8 +33,8 @@ public class Store {
 
 			System.out.println("0 - Quitter");
 
-			mainMenuChoice = Integer.parseInt(console.readLine());
-
+			mainMenuChoice = scanner.nextInt();
+			
 			switch (mainMenuChoice) {
 			case 1:
 				// Create vehicle
@@ -49,7 +51,7 @@ public class Store {
 			case 3:
 				// Show the chosen vehicle
 				System.out.println("Choisir un véhicule");
-				chosenVehicle = Integer.parseInt(console.readLine());
+				chosenVehicle = scanner.nextInt();
 				vehicle.showOneVehicle(chosenVehicle);
 
 				// Chose to delete or modify selected vehicle
@@ -112,6 +114,8 @@ public class Store {
 			}
 
 		} while (mainMenuChoice != 0);
+		
+		scanner.close();
 	}
-
+	
 }
