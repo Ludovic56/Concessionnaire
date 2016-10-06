@@ -1,14 +1,21 @@
 package com.iia.shop.entity;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Vehicle {
+public class Vehicle implements Serializable{
 	java.io.Console console = System.console();
 	Scanner scanner = new Scanner(System.in);
 
@@ -162,11 +169,11 @@ public class Vehicle {
 		return speed;
 	}
 
-	public void fileToArray(File file, ArrayList<Vehicle> vehicleArrayList) {
+	public void readFile(File file, ArrayList<Vehicle> vehicleArrayList) {
 		try {
 			FileReader reader = new FileReader(file);
 			BufferedReader buffer = new BufferedReader(reader);
-			
+
 			int indexArray = 0;
 			while (buffer.ready()) {
 				for (int index = 1; index < 5; index++) {
@@ -195,10 +202,103 @@ public class Vehicle {
 					default:
 						break;
 					}
-					
+
 				}
 			}
 			buffer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public static void readObject(File file) {
+
+		try {
+			FileInputStream in = new FileInputStream(file);
+			ObjectInputStream objectIn = new ObjectInputStream(in);
+
+			Vehicle vehicule = (Vehicle) objectIn.readObject();
+
+			objectIn.close();
+			System.out.println("Marque de la voiture : " + vehicule.getBrand() + "\n" + "Modele de la voiture : "
+					+ vehicule.getModel());
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public static void writeFile(File file, ArrayList<Vehicle> vehicleArrayList) {
+		try {
+			int indexArray = 0;
+			FileWriter writer = new FileWriter(file, true);
+
+			BufferedWriter buffer = new BufferedWriter(writer);
+			String stringPrice;
+			
+			for (int index = 1; index < 5; index++) {			
+				
+				switch (index) {
+				case 1:
+					buffer.write(vehicleArrayList.get(indexArray).getBrand());
+					buffer.newLine();
+					break;
+
+				case 2:
+					buffer.write(vehicleArrayList.get(indexArray).getYear());
+					buffer.newLine();
+					break;
+
+				case 3:
+					buffer.write(vehicleArrayList.get(indexArray).getModel());
+					buffer.newLine();
+					break;
+
+				case 4:
+					buffer.write(vehicleArrayList.get(indexArray).getColor());
+					buffer.newLine();
+					break;
+
+				case 5:
+					stringPrice = String.valueOf(vehicleArrayList.get(indexArray).getYear());
+					buffer.write(stringPrice);
+					buffer.newLine();
+					index = 0;
+					break;
+
+				default:
+					break;
+				}
+			}
+
+			buffer.close();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public static void saveObject(File file, ArrayList<Vehicle> vehicleArrayList) {
+		try {
+			FileOutputStream out = new FileOutputStream(file, true);
+			ObjectOutputStream objectOutput = new ObjectOutputStream(out);			
+			
+			for (Vehicle vehicle : vehicleArrayList) {
+				objectOutput.writeObject(vehicle);
+			}
+			
+			objectOutput.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
