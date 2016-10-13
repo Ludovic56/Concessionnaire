@@ -6,7 +6,7 @@ import com.iia.shop.entity.Vehicle;
 
 public class Store {
 
-	public static void main(String[] args) {
+	public static void main (String[] args) {
 		// TODO Auto-generated method stub
 
 		java.io.Console console = System.console();
@@ -29,8 +29,11 @@ public class Store {
 		do {
 			System.out.println("1 - Créer un véhicule");
 			System.out.println("2 - Voir tous les véhicules");
-			System.out.println("3 - Voir un véhicule ne particulier");
-
+			System.out.println("3 - Voir un véhicule en particulier");
+			System.out.println("4 - Charger le fichier");
+			System.out.println("5 - Charger le fichier série");
+			
+			
 			System.out.println("0 - Quitter");
 
 			mainMenuChoice = scanner.nextInt();
@@ -102,7 +105,19 @@ public class Store {
 				}
 
 				break;
+				
+			case 4:
+				// Load file into arrayList
+				vehicle.readFile(vehicle.file, vehicle.vehicleArrayList);
 
+				break;
+				
+			case 5:
+				// Load serial file into arrayList
+				vehicle.readObject(vehicle.file, vehicle.vehicleArrayList);
+
+				break;
+				
 			case 0:
 				// Exit program
 				System.out.println("A bientot !!");
@@ -115,6 +130,8 @@ public class Store {
 
 		} while (mainMenuChoice != 0);
 		
+		vehicle.saveObject(vehicle.serialFile, vehicle.vehicleArrayList);
+		vehicle.writeFile(vehicle.file, vehicle.vehicleArrayList);
 		scanner.close();
 	}
 	
